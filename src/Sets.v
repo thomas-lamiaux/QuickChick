@@ -45,8 +45,7 @@ Qed.
 
 #[global] Instance : forall T, Equivalence (@set_eq T).
 Proof.
-move=> T; constructor=> // [A B eqAB | A B C] x; first by split=> /eqAB.
-exact: set_eq_trans.
+move=> T; constructor=> // A B C x; exact: set_eq_trans.
 Qed.
 
 #[global] Instance set_eq_rew A : RelationClasses.RewriteRelation (@set_eq A) := {}.
@@ -148,10 +147,10 @@ Proof.
     by rewrite /set_incl.
 Qed.
 
-Lemma subset_singl : 
-  forall {T} (x y : T), [set x] \subset [set y] <-> y = x. 
+Lemma subset_singl :
+  forall {T} (x y : T), [set x] \subset [set y] <-> y = x.
 Proof.
-  intros. split; intros H; subst; auto.  
+  intros. split; intros H; subst; auto.
   - apply H; reflexivity.
   - apply subset_refl.
 Qed.
@@ -192,14 +191,14 @@ Proof.
 Qed.
 
 Lemma imset_incl {T U} (A B : set T) (f : T -> U):
-  A \subset B -> 
+  A \subset B ->
   f @: A \subset f @: B.
 Proof.
   move => H u [x [H1 H2]]. eexists; split; eauto.
 Qed.
 
 Lemma imset_eq {T U} (A B : set T) (f : T -> U):
-  A <--> B -> 
+  A <--> B ->
   f @: A <--> f @: B.
 Proof.
   move => H u. split; apply imset_incl => t Ht; by apply H.
@@ -309,7 +308,7 @@ Proof.
 Qed.
 
 Lemma incl_bigcup a b (x:a) (A : set a) (f:a->set b) :
-  x \in A -> 
+  x \in A ->
   f x \subset \bigcup_(x in A) f x.
 Proof.
   rewrite /set_incl /bigcup. by eauto 3.
@@ -444,13 +443,13 @@ Proof.
   by split; move => [H1 H2]; firstorder.
 Qed.
 
-Lemma setI_comm {U} (s1 s2 : set U) : 
+Lemma setI_comm {U} (s1 s2 : set U) :
    s1 :&: s2 <--> s2 :&: s1.
 Proof.
   firstorder.
 Qed.
 
-Lemma setU_comm {U} (s1 s2 : set U) : 
+Lemma setU_comm {U} (s1 s2 : set U) :
    s1 :|: s2 <--> s2 :|: s1.
 Proof.
   firstorder.
@@ -478,7 +477,7 @@ Qed.
 Lemma setU_set0_l {A} (s1 s2 s3 : set A) :
   s1 <--> set0 ->
   s2 <--> s3 ->
-  (s1 :|: s2) <--> s3. 
+  (s1 :|: s2) <--> s3.
 Proof.
   firstorder.
 Qed.
@@ -486,7 +485,7 @@ Qed.
 Lemma setU_set0_r {A} (s1 s2 s3 : set A) :
   s1 <--> set0 ->
   s3 <--> s2 ->
-  s3 <--> (s1 :|: s2). 
+  s3 <--> (s1 :|: s2).
 Proof.
   firstorder.
 Qed.
@@ -538,23 +537,23 @@ Proof.
 Qed.
 
 Lemma setI_impl_l {T} (s1 s2 : set T) : s1 \subset s2 -> s1 :&: s2 <--> s1.
-Proof.      
+Proof.
   firstorder.
-Qed.      
+Qed.
 
 Lemma setI_impl_r {T} (s1 s2 : set T) : s2 \subset s1 -> s1 :&: s2 <--> s2.
-Proof.      
+Proof.
   firstorder.
-Qed.      
+Qed.
 
-Lemma setI_set0 {U} (s1 s2 : set U) : 
+Lemma setI_set0 {U} (s1 s2 : set U) :
   (forall x, s1 x -> ~ s2 x) ->
   (s1 :&: s2) <--> set0.
 Proof.
-  intros; split; firstorder. 
+  intros; split; firstorder.
 Qed.
 
-Lemma setI_subset_compat {U} (s1 s2 s1' s2' : set U) : 
+Lemma setI_subset_compat {U} (s1 s2 s1' s2' : set U) :
   s1 \subset s1' ->
   s2 \subset s2' ->
   (s1 :&: s2) \subset (s1' :&: s2').
@@ -562,21 +561,21 @@ Proof.
   firstorder.
 Qed.
 
-Lemma setU_subset_r {U} (s1 s2 s3 : set U) : 
+Lemma setU_subset_r {U} (s1 s2 s3 : set U) :
   s1 \subset s3 ->
   s1 \subset (s2 :|: s3).
 Proof.
   firstorder.
 Qed.
 
-Lemma setU_subset_l {U} (s1 s2 s3 : set U) : 
+Lemma setU_subset_l {U} (s1 s2 s3 : set U) :
   s1 \subset s2 ->
   s1 \subset (s2 :|: s3).
 Proof.
   firstorder.
 Qed.
 
-Lemma setI_setU_distr {U} (s1 s2 s3 : set U) : 
+Lemma setI_setU_distr {U} (s1 s2 s3 : set U) :
   ((s1 :|: s2) :&: s3) <--> ((s1 :&: s3) :|: (s2 :&: s3)).
 Proof.
   firstorder.
@@ -637,8 +636,8 @@ Lemma incl_bigcup_compat :
     A \subset B ->
     (forall x : T, F x \subset G x) ->
     \bigcup_(x in A) F x \subset \bigcup_(x in B) G x.
-Proof. 
-  now firstorder. 
+Proof.
+  now firstorder.
 Qed.
 
 Lemma bigcap_setI_l {U T} (s1 s2 : set U) (f : U -> set T) :
@@ -706,7 +705,7 @@ Lemma incl_hd_same {A : Type} (a : A) (l1 l2 : seq A) :
 Proof.
   intros Hin. firstorder.
 Qed.
-     
+
 Lemma setI_bigcup_assoc {A B} (s1 : set B) (s2 : set A) (s3 : A -> set B) :
   s1 :&: (\bigcup_(x in s2) s3 x) <--> \bigcup_(x in s2) (s1 :&: (s3 x)).
 Proof.
@@ -856,7 +855,7 @@ Qed.
 Lemma bigcup_cons_subset {A B} l (ls : seq A) (f : A -> set B) s :
   f l \subset s ->
   \bigcup_(x in ls) (f x) \subset s ->
-  \bigcup_(x in l :: ls) (f x) \subset s. 
+  \bigcup_(x in l :: ls) (f x) \subset s.
 Proof.
   intros H1 H2 x [y [Hl Hr]].
   inv Hl.
@@ -865,13 +864,13 @@ Proof.
 Qed.
 
 Lemma bigcup_nil_subset {A B} (f : A -> set B) s :
-  \bigcup_(x in []) (f x) \subset s. 
+  \bigcup_(x in []) (f x) \subset s.
 Proof.
   intros x [y [H1 H2]]. inv H1.
 Qed.
 
 Lemma option_subset {A} (s1 : set (option A)) :
-  s1 \subset (isSome :&: s1) :|: [set None]. 
+  s1 \subset (isSome :&: s1) :|: [set None].
 Proof.
   intros [x |]; firstorder.
 Qed.
@@ -890,7 +889,7 @@ Proof.
   intros x [y [H1 [[z [H2 H3]] | H2]]].
   + inv H3. left; eexists; split; eauto.
     eexists; split; eauto.
-  + inv H2; now right. 
+  + inv H2; now right.
 Qed.
 
 Lemma lift_subset_compat {U} (s1 s2 : set U) :
@@ -1049,7 +1048,7 @@ Proof.
   intros H1 H2 x; split.
   - intros [H3 H4]. destruct x; try discriminate.
     eapply H1 in H4. inv H4; try discriminate.
-    eassumption. 
+    eassumption.
   - intros [y [H3 H4]].
     inv H4. split. now eauto.
     eapply H2.
@@ -1119,7 +1118,7 @@ Lemma incl_bigcup_list_tl (T U : Type) (h : T) (t : list T) (G : T -> set U) s :
     s \subset \bigcup_(x in h :: t) G x.
 Proof.
   intros Hyp x Hin. eapply Hyp in Hin.
-  inv Hin. inv H. 
+  inv Hin. inv H.
   eexists. split. now right; eauto. eauto.
 Qed.
 
@@ -1134,7 +1133,7 @@ Qed.
 
 Lemma incl_bigcup_list_nil (T U : Type) (G : T -> set U) s :
     \bigcup_(x in [::]) G x \subset s.
-Proof. 
+Proof.
   intros x Hin. inv Hin. inv H. inv H0.
 Qed.
 
@@ -1164,15 +1163,15 @@ Proof.
   right. eexists; split; eauto.
 Qed.
 
-Lemma bigcup_nil_set0 (T U : Type) (F : T -> set U) : 
+Lemma bigcup_nil_set0 (T U : Type) (F : T -> set U) :
   \bigcup_(x in [::]) F x <--> set0.
 Proof.
   split; intros Hin; inv Hin; eauto.
   inv H. inv H0.
 Qed.
 
-Lemma incl_bigcup_compat_list_inter (T U : Type) (h1 h2 : T) 
-         (t1 t2 : seq T) (F G : T -> set U) S : 
+Lemma incl_bigcup_compat_list_inter (T U : Type) (h1 h2 : T)
+         (t1 t2 : seq T) (F G : T -> set U) S :
   S :&: F h1 \subset S :&: G h2 ->
   S :&: \bigcup_(x in t1) F x \subset S :&: \bigcup_(x in t2) G x ->
   S :&: \bigcup_(x in (h1 :: t1)) F x \subset
@@ -1180,12 +1179,12 @@ Lemma incl_bigcup_compat_list_inter (T U : Type) (h1 h2 : T)
 Proof.
   intros Hs1 Hs2.
   intros x Hin. inv Hin. constructor; eauto.
-  inv H0. inv H1. inv H2. 
+  inv H0. inv H1. inv H2.
   - eexists. split. now left. eapply Hs1. split; eauto.
-  - edestruct Hs2. split. eassumption. 
+  - edestruct Hs2. split. eassumption.
     eexists. split; eauto.
     destruct H6. destruct H6.
-    eexists. split. right; eauto. eassumption. 
+    eexists. split. right; eauto. eassumption.
 Qed.
 
 Lemma incl_bigcup_list_tl_inter {T U : Type} (h : T) (t : list T) (G : T -> set U) s S :
@@ -1194,7 +1193,7 @@ Lemma incl_bigcup_list_tl_inter {T U : Type} (h : T) (t : list T) (G : T -> set 
 Proof.
   intros Hyp x Hin. eapply Hyp in Hin.
   inv Hin. inv H0. inv H1.
-  split. eassumption. 
+  split. eassumption.
   eexists. split. now right; eauto. eauto.
 Qed.
 
